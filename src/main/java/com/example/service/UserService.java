@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -21,6 +23,10 @@ public class UserService {
     public User getUser(long id){
         return userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("User with id: " + id + " not found"));
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 
     public User createUser(String name, String contactNumber, String email, LocalDate dateOfBirth){
@@ -44,8 +50,7 @@ public class UserService {
         if(email != null && !email.isBlank()){
             user.setEmail(email);
         }
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     public boolean isUserActive(long id){

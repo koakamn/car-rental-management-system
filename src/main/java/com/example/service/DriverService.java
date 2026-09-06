@@ -1,8 +1,11 @@
 package com.example.service;
 
 import com.example.entity.Driver;
+import com.example.entity.User;
 import com.example.repository.DriverRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DriverService {
@@ -15,6 +18,10 @@ public class DriverService {
     public Driver getDriver(long id){
         return driverRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Driver with id: " + id + " not found"));
+    }
+
+    public List<Driver> getAllDrivers(){
+        return driverRepository.findAll();
     }
 
     public Driver createDriver(String name, String contactNumber, int age, String residence, String driverLicenseNumber){

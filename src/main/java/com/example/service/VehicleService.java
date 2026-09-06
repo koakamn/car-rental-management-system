@@ -1,10 +1,13 @@
 package com.example.service;
 
+import com.example.entity.User;
 import com.example.entity.Vehicle;
 import com.example.entity.VehicleAvailability;
 import com.example.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VehicleService {
@@ -18,6 +21,10 @@ public class VehicleService {
     public Vehicle getVehicle(long id){
         return vehicleRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Vehicle with id:" + id + " not found"));
+    }
+
+    public List<Vehicle> getAllVehicles(){
+        return vehicleRepository.findAll();
     }
 
     public Vehicle createVehicle(String registrationNumber, String modelNumber){

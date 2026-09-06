@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -28,6 +29,10 @@ public class BookingService {
     public Booking getBooking(long id){
         return bookingRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Booking with id:" + id + " not found"));
+    }
+
+    public List<Booking> getAllBookings(){
+        return bookingRepository.findAll();
     }
 
     @Transactional
