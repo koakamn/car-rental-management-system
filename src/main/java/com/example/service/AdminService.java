@@ -12,13 +12,15 @@ public class AdminService {
     private final VehicleService vehicleService;
     private final DriverService driverService;
     private final BookingService bookingService;
+    private final EmployeesService employeesService;
 
-    public AdminService(AdminRepository adminRepository, UserService userService, VehicleService vehicleService, DriverService driverService, BookingService bookingService) {
+    public AdminService(AdminRepository adminRepository, UserService userService, VehicleService vehicleService, DriverService driverService, BookingService bookingService, EmployeesService employeesService) {
         this.adminRepository = adminRepository;
         this.userService = userService;
         this.vehicleService = vehicleService;
         this.driverService = driverService;
         this.bookingService = bookingService;
+        this.employeesService = employeesService;
     }
 
     public Admin getAdmin(long id) {
@@ -73,6 +75,10 @@ public class AdminService {
 
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
+    }
+
+    public List<Employees> getAllEmployees() {
+        return employeesService.getAllEmployees();
     }
 
 
