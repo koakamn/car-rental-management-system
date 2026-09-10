@@ -26,12 +26,12 @@ public class BookingService {
         this.driverRepository = driverRepository;
     }
 
-    public Booking getBooking(long id){
+    public Booking getBooking(long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Booking with id:" + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Booking with id:" + id + " not found"));
     }
 
-    public List<Booking> getAllBookings(){
+    public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
@@ -82,29 +82,45 @@ public class BookingService {
         return savedBooking;
     }
 
-    @Transactional
-    public void cancelBooking(long bookingId){
-        Booking booking = getBooking(bookingId);
+    private void setVehicleToExistDriver(Booking booking) {
         Driver driver = booking.getDriver();
-        if (driver != null){
+        if (driver != null) {
             driver.setVehicle(null);
             driverRepository.save(driver);
         }
+    }
+
+    @Transactional
+    public void cancelBooking(long bookingId) {
+        Booking booking = getBooking(bookingId);
+//        Driver driver = booking.getDriver();
+//        if (driver != null){
+//            driver.setVehicle(null);
+//            driverRepository.save(driver);
+//        }
+        setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
         bookingRepository.delete(booking);
     }
 
     @Transactional
-    public void completeBooking(long bookingId){
+    public void completeBooking(long bookingId) {
         Booking booking = getBooking(bookingId);
-        Driver driver = booking.getDriver();
-        if (driver != null){
-            driver.setVehicle(null);
-            driverRepository.save(driver);
-        }
+        //        Driver driver = booking.getDriver();
+//        if (driver != null){
+//            driver.setVehicle(null);
+//            driverRepository.save(driver);
+//        }
+        setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
+    }
+
+    public void assignDriverToBooking(long bookingId, Driver driver) {
+        Booking booking = getBooking(bookingId);
+        booking.setDriver(driver);
+        bookingRepository.save(booking);
     }
 }
 

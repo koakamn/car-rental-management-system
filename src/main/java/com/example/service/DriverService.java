@@ -1,7 +1,6 @@
 package com.example.service;
 
-import com.example.entity.Driver;
-import com.example.entity.User;
+import com.example.entity.*;
 import com.example.repository.DriverRepository;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +66,11 @@ public class DriverService {
     public boolean isDriverAvailable(long id){
         Driver driver = getDriver(id);
         return driver.getVehicle() == null;
+    }
+
+    public void assignVehicleToDriver(long driverId, Vehicle vehicle) {
+        Driver driver = getDriver(driverId);
+        driver.setVehicle(vehicle);
+        driverRepository.save(driver);
     }
 }

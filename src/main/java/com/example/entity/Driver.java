@@ -2,6 +2,8 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "drivers")
 public class Driver {
@@ -114,6 +116,17 @@ public class Driver {
 
     public void setResidence(String residence) {
         this.residence = residence;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Driver driver)) return false;
+        return id == driver.id && age == driver.age && Objects.equals(name, driver.name) && Objects.equals(contactNumber, driver.contactNumber) && Objects.equals(driverLicenseNumber, driver.driverLicenseNumber) && Objects.equals(residence, driver.residence) && Objects.equals(vehicle, driver.vehicle) && Objects.equals(employees, driver.employees);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, contactNumber, age, driverLicenseNumber, residence, vehicle, employees);
     }
 
     @Override
