@@ -1,10 +1,13 @@
 package com.example.controller;
 
 import com.example.entity.Driver;
+import com.example.entity.Employees;
 import com.example.service.DriverService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/drivers")
@@ -19,6 +22,12 @@ public class DriverController {
     public ResponseEntity<Driver> getDriver(@PathVariable long id) {
         Driver driver = driverService.getDriver(id);
         return ResponseEntity.ok(driver);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Driver>> getAllDrivers(){
+        List<Driver> drivers = driverService.getAllDrivers();
+        return ResponseEntity.ok(drivers);
     }
 
     @PostMapping

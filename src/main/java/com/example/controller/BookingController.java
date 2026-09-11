@@ -2,13 +2,16 @@ package com.example.controller;
 
 import com.example.entity.Booking;
 import com.example.entity.DriverOption;
+import com.example.entity.Employees;
 import com.example.service.BookingService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -23,6 +26,12 @@ public class BookingController {
     public ResponseEntity<Booking> getBooking(@PathVariable long id) {
         Booking booking = bookingService.getBooking(id);
         return ResponseEntity.ok(booking);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Booking>> getAllBookings(){
+        List<Booking> bookings = bookingService.getAllBookings();
+        return ResponseEntity.ok(bookings);
     }
 
     @PostMapping

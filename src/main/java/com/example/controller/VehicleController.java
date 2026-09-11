@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.example.entity.Employees;
 import com.example.entity.Vehicle;
 import com.example.service.VehicleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -28,6 +31,12 @@ public class VehicleController {
     public ResponseEntity<Vehicle> getVehicle(@PathVariable long id) {
         Vehicle vehicle = vehicleService.getVehicle(id);
         return ResponseEntity.ok(vehicle);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Vehicle>> getAllVehicles(){
+        List<Vehicle> vehicles = vehicleService.getAllVehicles();
+        return ResponseEntity.ok(vehicles);
     }
 
     @PutMapping("/{id}")

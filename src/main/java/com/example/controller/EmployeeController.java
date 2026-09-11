@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -26,6 +28,12 @@ public class EmployeeController {
                 .body(createdEmployee);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Employees>> getAllEmployees(){
+        List<Employees> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Employees> getEmployee(@PathVariable long id) {
         Employees employee = employeeService.getEmployee(id);
@@ -33,10 +41,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employees> updateUser(@PathVariable long id,
-                                                @RequestParam(required = false) String email,
-                                                @RequestParam(required = false) String name,
-                                                @RequestParam(required = false) String contactNumber) {
+    public ResponseEntity<Employees> updateEmployee(@PathVariable long id,
+                                                    @RequestParam(required = false) String email,
+                                                    @RequestParam(required = false) String name,
+                                                    @RequestParam(required = false) String contactNumber) {
         Employees updatedEmployee = employeeService.updateEmployee(id, email, name, contactNumber);
         return ResponseEntity.ok(updatedEmployee);
     }
