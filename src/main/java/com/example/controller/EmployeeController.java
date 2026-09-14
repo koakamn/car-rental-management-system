@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Employees>> getAllEmployees(){
+    public ResponseEntity<List<Employees>> getAllEmployees() {
         List<Employees> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }

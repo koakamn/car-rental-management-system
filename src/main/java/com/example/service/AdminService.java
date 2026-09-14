@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.entity.*;
 import com.example.repository.AdminRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -26,6 +27,10 @@ public class AdminService {
     public Admin getAdmin(long id) {
         return adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Admin with id: " + id + " not found"));
+    }
+
+    public List<Admin> getAllAdmins() {
+        return adminRepository.findAll();
     }
 
     public Admin createAdmin(String name, String contactNumber, String email) {
