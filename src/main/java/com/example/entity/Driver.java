@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class Driver {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employees employees;
 
 
@@ -121,12 +123,12 @@ public class Driver {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Driver driver)) return false;
-        return id == driver.id && age == driver.age && Objects.equals(name, driver.name) && Objects.equals(contactNumber, driver.contactNumber) && Objects.equals(driverLicenseNumber, driver.driverLicenseNumber) && Objects.equals(residence, driver.residence) && Objects.equals(vehicle, driver.vehicle) && Objects.equals(employees, driver.employees);
+        return Objects.equals(driverLicenseNumber,driver.driverLicenseNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, contactNumber, age, driverLicenseNumber, residence, vehicle, employees);
+        return Objects.hash(driverLicenseNumber);
     }
 
     @Override
@@ -136,8 +138,8 @@ public class Driver {
                 ", name='" + name + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 ", age=" + age +
-                ", driverLicenseNumber=" + driverLicenseNumber +
-                ", residence='" + residence + '\'' +
+                ", driverLicenseNumber='" + driverLicenseNumber + '\'' +
+                ", residence='" + residence +
                 '}';
     }
 }
