@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -45,16 +46,18 @@ public class BookingService {
         if (bookingDate == null || bookingDate.isBefore(LocalDate.now())) {
             throw new RuntimeException("Booking date can not be in the past");
         }
+        if (timing == null || !(timing.isAfter(bookingDate))) {
+            throw new RuntimeException("Timing date is incorrect");
+        }
+
+        long rentalDays = ChronoUnit.DAYS.between(bookingDate, timing);
 
         if (!userService.isUserActive(userId)) {
             throw new RuntimeException("User is not active now");
         }
-
-
         if (!vehicleService.checkAvailability(vehicleId)) {
             throw new RuntimeException("Vehicle is not available now");
         }
-
         if (driverOption == DriverOption.WITH_DRIVER) {
             if (driverId == null) {
                 throw new RuntimeException("Driver ID is required");
@@ -62,7 +65,7 @@ public class BookingService {
             if (!driverService.isDriverAvailable(driverId)) {
                 throw new RuntimeException("Driver is not available");
             } else {
-                driverFee = driverService.calculateDriverFee(1);
+                driverFee = driverService.calculateDriverFee(rentalDays);
                 driver = driverService.getDriver(driverId);
                 driver.setVehicle(vehicle);
                 driverRepository.save(driver);
@@ -71,7 +74,7 @@ public class BookingService {
             driverFee = 0;
         }
 
-        int totalAmount = (int) (dailyPrice + driverFee);
+        long totalAmount = (dailyPrice * rentalDays) + (long) driverFee;
 
         Booking booking = new Booking(bookingDate, vehicle, driverOption, totalAmount, timing, driver);
         double advanceDeposit = totalAmount * 0.20;

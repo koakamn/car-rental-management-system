@@ -58,7 +58,7 @@ public class DriverService {
 
     }
 
-    public double calculateDriverFee(int rentalDays){
+    public double calculateDriverFee(long rentalDays){
         double driverDailyRate = 25.0;
         return rentalDays * driverDailyRate;
     }

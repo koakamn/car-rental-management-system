@@ -28,7 +28,7 @@ public class Booking {
     private double advanceDeposit;
 
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private long amount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -61,7 +61,7 @@ public class Booking {
         this.timing = timing;
     }
 
-    public Booking(LocalDate bookingDate, Vehicle vehicle, DriverOption driverOption, int amount, LocalDate timing, Driver driver) {
+    public Booking(LocalDate bookingDate, Vehicle vehicle, DriverOption driverOption, long amount, LocalDate timing, Driver driver) {
         this.bookingDate = bookingDate;
         this.vehicle = vehicle;
         this.driverOption = driverOption;
@@ -110,11 +110,11 @@ public class Booking {
         this.advanceDeposit = advanceDeposit;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
