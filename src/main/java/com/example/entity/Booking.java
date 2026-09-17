@@ -30,6 +30,10 @@ public class Booking {
     @Column(name = "amount", nullable = false)
     private long amount;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -53,21 +57,14 @@ public class Booking {
         this.driver = driver;
     }
 
-    public Booking(LocalDate bookingDate, DriverOption driverOption, double advanceDeposit, int amount, LocalDate timing) {
-        this.bookingDate = bookingDate;
-        this.driverOption = driverOption;
-        this.advanceDeposit = advanceDeposit;
-        this.amount = amount;
-        this.timing = timing;
-    }
-
-    public Booking(LocalDate bookingDate, Vehicle vehicle, DriverOption driverOption, long amount, LocalDate timing, Driver driver) {
+    public Booking(LocalDate bookingDate, Vehicle vehicle, DriverOption driverOption, long amount, LocalDate timing, Driver driver, BookingStatus status) {
         this.bookingDate = bookingDate;
         this.vehicle = vehicle;
         this.driverOption = driverOption;
         this.amount = amount;
         this.timing = timing;
         this.driver = driver;
+        this.status = status;
     }
 
     public long getId() {
@@ -124,6 +121,14 @@ public class Booking {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
     }
 
     public LocalDate getTiming() {

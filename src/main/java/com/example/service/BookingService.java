@@ -76,7 +76,7 @@ public class BookingService {
 
         long totalAmount = (dailyPrice * rentalDays) + (long) driverFee;
 
-        Booking booking = new Booking(bookingDate, vehicle, driverOption, totalAmount, timing, driver);
+        Booking booking = new Booking(bookingDate, vehicle, driverOption, totalAmount, timing, driver, BookingStatus.ACTIVE);
         double advanceDeposit = totalAmount * 0.20;
         booking.setAdvanceDeposit(advanceDeposit);
         booking.setUser(user);
@@ -96,28 +96,21 @@ public class BookingService {
     @Transactional
     public void cancelBooking(long bookingId) {
         Booking booking = getBooking(bookingId);
-//        Driver driver = booking.getDriver();
-//        if (driver != null){
-//            driver.setVehicle(null);
-//            driverRepository.save(driver);
-//        }
         setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
-        bookingRepository.delete(booking);
+        booking.setStatus(BookingStatus.CANCELLED);
+        bookingRepository.save(booking);
     }
 
     @Transactional
     public void completeBooking(long bookingId) {
         Booking booking = getBooking(bookingId);
-        //        Driver driver = booking.getDriver();
-//        if (driver != null){
-//            driver.setVehicle(null);
-//            driverRepository.save(driver);
-//        }
         setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
+        booking.setStatus(BookingStatus.COMPLETED);
+        bookingRepository.save(booking);
     }
 
     public void assignDriverToBooking(long bookingId, Driver driver) {
