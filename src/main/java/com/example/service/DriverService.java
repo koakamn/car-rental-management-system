@@ -30,11 +30,6 @@ public class DriverService {
         return driverRepository.save(driver);
     }
 
-    public Driver createDriver(String name, String contactNumber, String driverLicenseNumber){
-        Driver driver = new Driver(name, contactNumber, driverLicenseNumber);
-        return driverRepository.save(driver);
-    }
-
     public Driver updateDriver(long id, String contactNumber, String residence, String driverLicenseNumber){
         Driver driver = getDriver(id);
         if(contactNumber != null && !contactNumber.isBlank()){

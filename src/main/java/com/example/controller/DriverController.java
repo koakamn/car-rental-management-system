@@ -33,8 +33,10 @@ public class DriverController {
     @PostMapping
     public ResponseEntity<Driver> createDriver(@RequestParam String name,
                                                @RequestParam String contactNumber,
+                                               @RequestParam int age,
+                                               @RequestParam String residence,
                                                @RequestParam String driverLicenseNumber) {
-        Driver createdDriver = driverService.createDriver(name, contactNumber, driverLicenseNumber);
+        Driver createdDriver = driverService.createDriver(name, contactNumber, age, residence, driverLicenseNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdDriver);
