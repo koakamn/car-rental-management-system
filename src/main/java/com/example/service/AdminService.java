@@ -2,6 +2,8 @@ package com.example.service;
 
 import com.example.entity.*;
 import com.example.repository.AdminRepository;
+import com.example.repository.EmployeesRepository;
+import com.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +16,18 @@ public class AdminService {
     private final DriverService driverService;
     private final BookingService bookingService;
     private final EmployeesService employeesService;
+    private final UserRepository userRepository;
+    private final EmployeesRepository employeesRepository;
 
-    public AdminService(AdminRepository adminRepository, UserService userService, VehicleService vehicleService, DriverService driverService, BookingService bookingService, EmployeesService employeesService) {
+    public AdminService(AdminRepository adminRepository, UserService userService, VehicleService vehicleService, DriverService driverService, BookingService bookingService, EmployeesService employeesService, UserRepository userRepository, EmployeesRepository employeesRepository) {
         this.adminRepository = adminRepository;
         this.userService = userService;
         this.vehicleService = vehicleService;
         this.driverService = driverService;
         this.bookingService = bookingService;
         this.employeesService = employeesService;
+        this.userRepository = userRepository;
+        this.employeesRepository = employeesRepository;
     }
 
     public Admin getAdmin(long id) {
@@ -63,6 +69,12 @@ public class AdminService {
 
     public void deleteAdmin(long id) {
         Admin admin = getAdmin(id);
+        if (userRepository.existsByAdminId(id)) {
+            throw new RuntimeException("Cannot delete this admin");
+        }
+        if (employeesRepository.existsByAdminId(id)) {
+            throw new RuntimeException("Cannot delete this admin");
+        }
         adminRepository.delete(admin);
     }
 

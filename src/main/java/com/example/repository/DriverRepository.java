@@ -4,4 +4,8 @@ import com.example.entity.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DriverRepository extends JpaRepository<Driver,Long> {
+
+    boolean existsByEmployeesId(long employeeId);
+
+    boolean existsByVehicleId(Long aLong);
 }

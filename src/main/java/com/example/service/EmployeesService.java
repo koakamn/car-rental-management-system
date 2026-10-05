@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.*;
+import com.example.repository.DriverRepository;
 import com.example.repository.EmployeesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,13 @@ public class EmployeesService {
     private final EmployeesRepository employeesRepository;
     private final BookingService bookingService;
     private final DriverService driverService;
+    private final DriverRepository driverRepository;
 
-    public EmployeesService(EmployeesRepository employeesRepository, BookingService bookingService, DriverService driverService) {
+    public EmployeesService(EmployeesRepository employeesRepository, BookingService bookingService, DriverService driverService, DriverRepository driverRepository) {
         this.employeesRepository = employeesRepository;
         this.bookingService = bookingService;
         this.driverService = driverService;
+        this.driverRepository = driverRepository;
     }
 
     public Employees getEmployee(long id) {
@@ -59,12 +62,19 @@ public class EmployeesService {
 
     public void deleteEmployee(long id) {
         Employees employee = getEmployee(id);
+        if(driverRepository.existsByEmployeesId(id)){
+            throw new RuntimeException("Cannot delete this employee");
+        }
         employeesRepository.delete(employee);
     }
 
     @Transactional
     public void assignDriverToBooking(long driverId, long bookingId) {
         Booking booking = bookingService.getBooking(bookingId);
+
+        if (!(booking.getStatus() == BookingStatus.ACTIVE)) {
+            throw new RuntimeException("The booking is non-active now!");
+        }
         if (booking.getDriverOption() != DriverOption.WITH_DRIVER) {
             throw new RuntimeException("Booking is self-drive, driver is not needed");
         }

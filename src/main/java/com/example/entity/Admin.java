@@ -26,9 +26,11 @@ public class Admin {
     private String gender;
 
     @OneToMany(mappedBy = "admin")
+    @JsonIgnore
     private List<User> user;
 
     @OneToMany(mappedBy = "admin")
+    @JsonIgnore
     private List<Employees> employees;
 
     public Admin() {

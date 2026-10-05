@@ -96,6 +96,9 @@ public class BookingService {
     @Transactional
     public void cancelBooking(long bookingId) {
         Booking booking = getBooking(bookingId);
+        if (!(booking.getStatus() == BookingStatus.ACTIVE)) {
+            throw new RuntimeException("The booking is non-active now!");
+        }
         setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
@@ -106,6 +109,9 @@ public class BookingService {
     @Transactional
     public void completeBooking(long bookingId) {
         Booking booking = getBooking(bookingId);
+        if (!(booking.getStatus() == BookingStatus.ACTIVE)) {
+            throw new RuntimeException("The booking is non-active now!");
+        }
         setVehicleToExistDriver(booking);
         long vehicleId = booking.getVehicle().getId();
         vehicleService.markAsAvailable(vehicleId);
@@ -113,6 +119,8 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
+
+    @Transactional
     public void assignDriverToBooking(long bookingId, Driver driver) {
         Booking booking = getBooking(bookingId);
         booking.setDriver(driver);
