@@ -19,14 +19,13 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	runtimeOnly("org.postgresql:postgresql")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	implementation("org.springframework:spring-orm:7.0.8")
-	implementation("org.springframework:spring-context:7.0.8")
-	implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
-	implementation("org.postgresql:postgresql:42.7.13")
-	implementation("org.hibernate.orm:hibernate-core:7.4.5.Final")
-	implementation("org.springframework.data:spring-data-jpa:4.1.0")
 }
 
 tasks.withType<Test> {

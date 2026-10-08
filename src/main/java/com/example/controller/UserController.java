@@ -4,15 +4,18 @@ package com.example.controller;
 import com.example.entity.User;
 import com.example.entity.UserStatus;
 import com.example.service.UserService;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -23,9 +26,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestParam String name,
-                                           @RequestParam String contactNumber,
-                                           @RequestParam String email,
+    public ResponseEntity<User> createUser(@RequestParam @Size(max = 20) String name,
+                                           @RequestParam @Size(max = 12) String contactNumber,
+                                           @RequestParam @Size(max = 50) String email,
                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth
     ) {
         User createdUser = userService.createUser(name, contactNumber, email, dateOfBirth);
@@ -48,9 +51,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id,
-                                           @RequestParam(required = false) String name,
-                                           @RequestParam(required = false) String contactNumber,
-                                           @RequestParam(required = false) String email) {
+                                           @RequestParam(required = false) @Size(max = 20) String name,
+                                           @RequestParam(required = false) @Size(max = 12) String contactNumber,
+                                           @RequestParam(required = false) @Size(max = 50) String email) {
         User updatedUser = userService.updateUser(id, name, contactNumber, email);
         return ResponseEntity.ok(updatedUser);
     }

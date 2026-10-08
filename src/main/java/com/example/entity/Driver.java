@@ -2,6 +2,8 @@ package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -13,10 +15,14 @@ public class Driver {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @NotBlank(message = "Name can not be empty")
+    @Size(max = 20, message = "Name must be up to 20 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "contact_number", nullable = false, length = 12)
+    @NotBlank(message = "Contact number can not be empty")
+    @Size(max = 12, message = "Contact must be up to 12 characters")
+    @Column(name = "contact_number")
     private String contactNumber;
 
     @Column(name = "age")
@@ -38,7 +44,7 @@ public class Driver {
     private Employees employees;
 
 
-    public Driver(){
+    public Driver() {
 
     }
 
@@ -123,7 +129,7 @@ public class Driver {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Driver driver)) return false;
-        return Objects.equals(driverLicenseNumber,driver.driverLicenseNumber);
+        return Objects.equals(driverLicenseNumber, driver.driverLicenseNumber);
     }
 
     @Override

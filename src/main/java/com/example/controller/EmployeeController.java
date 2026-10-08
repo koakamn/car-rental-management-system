@@ -3,12 +3,15 @@ package com.example.controller;
 import com.example.entity.Employees;
 import com.example.entity.User;
 import com.example.service.EmployeesService;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -19,9 +22,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Employees> createEmployee(@RequestParam String email,
-                                                    @RequestParam String name,
-                                                    @RequestParam String contactNumber) {
+    public ResponseEntity<Employees> createEmployee(@RequestParam @Size(max = 40) String email,
+                                                    @RequestParam @Size(max = 40) String name,
+                                                    @RequestParam @Size(max = 12) String contactNumber) {
         Employees createdEmployee = employeeService.createEmployee(email, name, contactNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -42,9 +45,9 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Employees> updateEmployee(@PathVariable long id,
-                                                    @RequestParam(required = false) String email,
-                                                    @RequestParam(required = false) String name,
-                                                    @RequestParam(required = false) String contactNumber) {
+                                                    @RequestParam(required = false) @Size(max = 40) String email,
+                                                    @RequestParam(required = false) @Size(max = 40) String name,
+                                                    @RequestParam(required = false) @Size(max = 12) String contactNumber) {
         Employees updatedEmployee = employeeService.updateEmployee(id, email, name, contactNumber);
         return ResponseEntity.ok(updatedEmployee);
     }

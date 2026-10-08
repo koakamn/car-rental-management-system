@@ -2,37 +2,47 @@ package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @NotBlank(message = "Name can not be empty")
+    @Size(max = 20, message = "Name must be up to 20 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "contact_number", nullable = false, length = 12)
+    @NotBlank(message = "Contact number can not be empty")
+    @Size(max = 12, message = "Contact must be up to 12 characters")
+    @Column(name = "contact_number")
     private String contactNumber;
 
-    @Column(name = "email_address", nullable = false, length = 50)
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be empty")
+    @Size(max = 50, message = "Email must be up to 50 characters")
+    @Column(name = "email_address")
     private String email;
 
-    @Column(name = "date_of_birth" , nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(name = "occupation" , length = 40)
+    @Column(name = "occupation", length = 40)
     private String occupation;
 
     @Column(name = "residence", length = 50)
     private String residence;
 
-    @Column(name = "status" , nullable = false)
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
@@ -45,7 +55,7 @@ public class User {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
-    public User(){
+    public User() {
 
     }
 

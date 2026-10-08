@@ -3,12 +3,15 @@ package com.example.controller;
 import com.example.entity.Driver;
 import com.example.entity.Employees;
 import com.example.service.DriverService;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/drivers")
 public class DriverController {
@@ -31,8 +34,8 @@ public class DriverController {
     }
 
     @PostMapping
-    public ResponseEntity<Driver> createDriver(@RequestParam String name,
-                                               @RequestParam String contactNumber,
+    public ResponseEntity<Driver> createDriver(@RequestParam @Size(max = 20) String name,
+                                               @RequestParam @Size(max = 12) String contactNumber,
                                                @RequestParam int age,
                                                @RequestParam String residence,
                                                @RequestParam String driverLicenseNumber) {
@@ -44,7 +47,7 @@ public class DriverController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Driver> updateDriver(@PathVariable long id,
-                                               @RequestParam(required = false) String contactNumber,
+                                               @RequestParam(required = false) @Size(max = 12) String contactNumber,
                                                @RequestParam(required = false) String residence,
                                                @RequestParam(required = false) String driverLicenseNumber) {
         Driver updatedDriver = driverService.updateDriver(id, contactNumber, residence, driverLicenseNumber);

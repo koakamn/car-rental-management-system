@@ -2,6 +2,9 @@ package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -13,13 +16,20 @@ public class Admin {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @NotBlank(message = "Name can not be empty")
+    @Size(max = 20, message = "Name must be up to 20 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "contact_number", nullable = false, length = 12)
+    @NotBlank(message = "Contact number can not be empty")
+    @Size(max = 12, message = "Contact must be up to 12 characters")
+    @Column(name = "contact_number")
     private String contactNumber;
 
-    @Column(name = "email_address", nullable = false, length = 50)
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be empty")
+    @Size(max = 50, message = "Email must be up to 50 characters")
+    @Column(name = "email_address")
     private String email;
 
     @Column(name = "gender")
